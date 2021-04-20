@@ -1,0 +1,21 @@
+
+//RWD
+@mixin mobile{
+    @media(min-width: 375px){
+        @content;
+    }
+}
+
+@mixin pad{
+    // Medium devices (tablets, 768px and up)
+    @media(min-width: 768px){
+        @content;
+    }
+}
+
+@mixin desktop{
+    // Large devices (desktops, 992px and up)
+    @media(min-width: 992px){
+        @content;
+    }
+}

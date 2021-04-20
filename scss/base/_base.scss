@@ -1,0 +1,32 @@
+
+*, *::after, *::before{
+    box-sizing: border-box;
+}
+
+body{
+    font-family:'Roboto', 'Noto Sans TC', sans-serif;
+    font-size: $font-size-base; //16px
+    line-height: 1.5;
+    background: #fff;
+}
+
+h1, h2, h3, h4, h5, h6{
+    line-height: 1.5;
+}
+
+img{
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+a{
+    color: #000;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+button{
+    cursor: pointer;
+}

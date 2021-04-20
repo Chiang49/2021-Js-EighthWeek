@@ -1,0 +1,332 @@
+
+body{
+    position: relative;
+}
+
+//Banner
+//-----------------------------------------------
+.banner{
+    height: 420px;
+    background-image: url('../../img/photo-1552848469-b4c949fdded7/photo-1552848469-b4c949fdded7@2x.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+}
+.slogn{
+    font-size: 32px;
+    font-weight: bold;
+    color: #fff;
+    position: absolute;
+    left: 36px;
+    bottom: 30px;
+}
+
+
+//優勢
+//-----------------------------------------------
+.advantage-img{
+    margin-bottom: 8px;
+}
+
+//比較
+//-----------------------------------------------
+.compare{
+    display: none;
+    background: #F8F8F8;
+    text-align: center;
+    padding: 48px 0 64px;
+    @include pad{
+        display: block;
+    }
+    table{
+        width: 65.765%;
+        min-width: 600px;
+        margin: auto;
+    }
+    tr{
+        border-bottom: 1px solid #B9B9B9;
+    }
+    th{
+        width: calc(100%/4);
+    }
+    th, td:first-child{
+        font-size: 20px;
+        font-weight: bold;
+        padding: 12px 0;
+    }
+    td:first-child{
+        text-align: left;
+    }
+    .material-icons{
+        color: #6A33FF;
+        transform: scale(1.5);
+    }
+    .difference{
+        color: #797979;
+    }
+}
+
+
+//推薦
+//-----------------------------------------------
+.recommend{
+    background: #301E5F;
+    text-align: center;
+    padding: 60px 0 80px;
+    margin-bottom: 32px;
+}
+.recommednWall{
+    overflow: hidden;
+    overflow-x: scroll;
+    &::-webkit-scrollbar{
+        display: none;
+    }
+}
+.recommednWall-top, .recommednWall-bottom{
+    display: flex;
+}
+.recommednWall-top{
+    margin-left: 95px ;
+    margin-bottom: 20px;
+}
+.recommendCard{
+    width: 350px;
+    background: #fff;
+    margin-right: 30px;
+    display: flex;
+    &-content{
+        padding: 13px 16px;
+    }
+    &-header{
+        margin-bottom: 8px;
+        display: flex;
+    }
+    .consumerImg{
+        margin-right: 8px;
+    }
+    .consumerInf, &-text{
+        text-align: left;
+    }
+    .consumerProduct{
+        font-size: 14px;
+        color: #6A33F8;
+    }
+}
+
+
+//運送方式
+//-----------------------------------------------
+.shipment{
+    text-align: center;
+    margin-bottom: 72px;
+    &-step{
+        width: 65.765%;
+        margin: auto;
+        @include pad{
+            min-width: 600px;
+        }
+        li{
+            margin-bottom: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            &:last-child{
+                margin-bottom: 0;
+            }
+            &:nth-child(1),
+            &:nth-child(2),
+            &:nth-child(3){
+                position: relative;
+            }
+            &:nth-child(1):after,
+            &:nth-child(2):after,
+            &:nth-child(3):after{
+                content: "";
+                position: absolute;
+                top: 195px;
+                border: 10px solid #000;
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-bottom: 0px solid transparent;
+            }
+            @include pad{
+                margin-bottom: 0;
+                &:nth-child(1):after,
+                &:nth-child(2):after,
+                &:nth-child(3):after{
+                    content: "";
+                    top: 48px;
+                    right: -5px;
+                    border: 10px solid #000;
+                    border-top: 10px solid transparent;
+                    border-right: 0px solid transparent;
+                    border-bottom: 10px solid transparent;
+                }
+            }
+        }
+    }
+    .stepImg{
+        width: 115px;
+        height: 115px;
+        border: 3px solid #000;
+        border-radius: 50%;
+        margin-bottom: 8px;
+        position: relative;
+    }
+    .material-icons{
+        font-size: 65px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+}
+
+
+
+//產品列表
+//-----------------------------------------------
+.product{
+    margin-bottom: 60px;
+    select{
+        width: 100%;
+        padding: 8px 12px;
+        margin-bottom: 32px;
+    }
+}
+.productList{
+    li{
+        margin-bottom: 28px;
+        &:last-child{
+            margin-bottom: 0px;
+        }
+        @include pad{
+            &:nth-last-child(2){
+                margin-bottom: 0px;
+            }
+        }
+        @include desktop{
+            &:nth-last-child(3),&:nth-last-child(4){
+                margin-bottom: 0px;
+            }
+        }
+    }
+}
+
+
+//購物車
+//-----------------------------------------------
+.shoppingCart{
+    background: #F8F8F8;
+    text-align: center;
+    padding: 48px 0 70px;
+    margin-bottom: 60px;
+    &-table{
+        font-size: 20px;
+        margin: 0 auto 20px;
+        @include pad{
+            width: 85.2%;
+        }
+    }
+    &-title{
+        text-align: left;
+    }
+    &-card{
+        padding: 20px 0;
+        border-bottom: 1px solid #BFBFBF;
+        justify-content: center;
+        align-items: center;
+        li{
+            text-align: left;
+            &:last-child{
+                text-align: right;
+            }
+        }
+    }
+    &-product{
+        display: flex;
+        align-items: center;
+    }
+    &-img{
+        width: 80px;
+        height: 80px;
+        margin-right: 15px;
+    }
+    &-footer{
+        text-align: left;
+        @include pad{
+            width: 85.2%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+    &-totalPrice{
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    &-totalAll{
+        font-size: 28px;
+        font-weight: bold;
+        margin-left: 55px;
+    }
+    .material-icons:hover{
+        color: #6A33FF;
+        transform: scale(1.5);
+        transition: 0.7s;
+    }
+}
+.noProduct{
+    font-size: 30px;
+    color: #aaa;
+    font-style: italic;
+}
+
+//訂單資料
+//-----------------------------------------------
+.order{
+    text-align: center;
+    margin-bottom: 80px;
+    .clientData{
+        width: 350px;
+        text-align-last: left;
+        margin: auto;
+    }
+    .input-control{
+        margin-bottom: 20px;
+        label{
+            display:block;
+            margin-bottom: 4px;
+        }
+        input,select{
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #000;
+            margin-bottom: 4px;
+        }
+        .error{
+            color: #C72424;
+        }
+        .errorBorder{
+            border: 1px solid #C72424;
+        }
+    }
+    .sendBtn{
+        background: #000;
+        font-size: 20px;
+        color: #fff;
+        padding: 10px 68px;
+        border:none;
+        border-radius: 4px;
+        margin-top: 20px;
+        &:hover{
+            background: #301E5F;
+            transition: 0.6s;
+        }
+    }
+}
+

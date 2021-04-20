@@ -1,0 +1,38 @@
+{
+    "workbench.iconTheme": "material-icon-theme",
+    "liveSassCompile.settings.formats": [
+
+
+    {
+      "format": "expanded",
+      "extensionName": ".css",
+      "savePath": "/css/style"
+    },
+    {
+      "extensionName": ".min.css",
+      "format": "compressed",
+      "savePath": "/css/dist/style"
+    }
+
+    ],
+    "liveSassCompile.settings.generateMap": true,
+    "liveSassCompile.settings.autoprefix": [
+
+        "> 1%",
+        "last 2 versions"
+
+    ],
+    "liveServer.settings.AdvanceCustomBrowserCmdLine": "",
+    "liveSassCompile.settings.excludeList": [
+
+
+
+      "**/node_modules/**",
+      ".vscode/**"
+    ],
+    "git.enableSmartCommit": true,
+    "git.enabled": false,
+    "github.gitAuthentication": false,
+    "files.autoSave": "off",
+    "window.zoomLevel": 0
+}

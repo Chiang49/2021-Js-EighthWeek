@@ -1,0 +1,27 @@
+
+.bubble{
+    width: 100px;
+    height: 100px;
+    background: #301E5F;
+    border-radius: 50%;
+    box-shadow: 0px 5px 10px #000;
+    position: fixed;
+    right: 24px;
+    bottom: 25px;
+    &-text{
+        font-size: 28px;
+        color: #fff;
+        font-weight: bold;
+        white-space: nowrap;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+}
+
+.bubble2{
+    position: fixed;
+    right: 24px;
+    bottom: 145px;
+}

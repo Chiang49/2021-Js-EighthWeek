@@ -1,0 +1,40 @@
+
+.productCard{
+    &-header{
+        position: relative;
+        >img{
+            width: 100%;
+        }
+    }
+    &-new{
+        background: #000;
+        font-size: 20px;
+        color: #fff;
+        padding: 8px 24px;
+        position: absolute;
+        top: 10px;
+        right: -5px;
+    }
+    &-addCarBtn{
+        width: 100%;
+        background: #000;
+        font-size: 20px;
+        font-weight: bold;
+        color: #fff;
+        padding: 12px 0;
+        border: none;
+        margin-bottom: 8px;
+        &:hover{
+            background: #301E5F;
+            transition: 0.6s;
+        }
+    }
+    &-price{
+        font-size: 20px;
+        text-decoration: line-through;
+        margin-top: 8px;
+    }
+    &-newPrice{
+        font-size: 28px;
+    }
+}

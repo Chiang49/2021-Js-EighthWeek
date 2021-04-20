@@ -1,0 +1,52 @@
+
+// 圖表資料
+//--------------------------------------
+.chartData{
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+
+// 表格資料
+//--------------------------------------
+.orderData{
+    text-align: right;
+    margin-bottom: 108px;
+}
+.orderTable{
+    width: 100%;
+    text-align: left;
+    border: 1px solid #000;
+    th,td{
+        padding: 12px 10px;
+        border: 1px solid #000;
+        vertical-align: middle;
+    }
+}
+.noOrder{
+    font-size: 28px;
+    color: #aaa;
+    text-align: center;
+    font-style: italic;
+    border: none;
+    vertical-align: middle;
+}
+.a-link{
+    color: #0067CE;
+    text-decoration: underline;
+    white-space: nowrap;
+    padding: 10px;
+}
+.deleteBtn{
+    background: rgb(255, 20, 20);
+    color: #fff;
+    white-space: nowrap;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    &:hover{
+        background: rgb(184, 14, 14);
+        transition: 0.6s;
+    }
+}
+
