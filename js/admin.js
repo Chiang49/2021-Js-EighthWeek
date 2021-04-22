@@ -281,18 +281,9 @@ function c3_data_item(){
         
 
         //陣列排序大到小
-        const n = rankAllProduct.length;
-        let swapped = true; //做 flag 已排過的不用再跑(減少效能)
-
-        for(let i = 0; i < n && swapped; i++){
-            swapped = false;
-            for(let j = 0; j < n-1-i; j++){
-                if(rankAllProduct[j].price < rankAllProduct[j+1].price){
-                    swapped = true;
-                    [rankAllProduct[j], rankAllProduct[j+1]] = [rankAllProduct[j+1], rankAllProduct[j]]
-                }
-            }
-        }
+        rankAllProduct.sort(function(a,b){
+            return b.price - a.price;
+        })
         
         c3Data(rankAllProduct);
     }
@@ -301,6 +292,7 @@ function c3_data_item(){
     function c3Data(rankAllProduct){
          
          const n = rankAllProduct.length;
+         console.log(rankAllProduct);
          let c3ArrayData = [];
          // 整理出1~3名商品成c3.js格式
          for(let i = 0; i < 3; i++){
