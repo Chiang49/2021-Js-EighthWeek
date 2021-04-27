@@ -34,5 +34,6 @@
     "git.enabled": false,
     "github.gitAuthentication": false,
     "files.autoSave": "off",
-    "window.zoomLevel": 0
+    "window.zoomLevel": 0,
+    "liveServer.settings.port": 5501
 }

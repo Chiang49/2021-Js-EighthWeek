@@ -208,7 +208,9 @@ shoppingCartList.addEventListener('change',function(e){
               }
             })
             .then(function(response){
-                getShoppingCartData();
+                shoppingCartData = response.data.carts;
+                totalPrice.innerHTML = response.data.finalTotal;
+                renderShoppingCart();
             })
        
     }
