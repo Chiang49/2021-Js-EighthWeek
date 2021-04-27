@@ -1,5 +1,8 @@
 
+let urlOrder = `${baseUrl}/api/livejs/v1/admin/${api_path}/orders`
+
 let orderData = [];     //存取訂單資料
+const headers = {authorization:token};
 const orderList = document.querySelector('.js-orderList');//選取訂單表
 const deleteAllBtn = document.querySelector('.js-deleteAllBtn');//選取全部刪除紐
 
@@ -13,19 +16,18 @@ init();
 // AJAX 取得訂單資料
 function getOrderDtat(){
 
-    axios.get(`https://hexschoollivejs.herokuapp.com/api/livejs/v1/admin/${api_path}/orders`,{
-        headers:{
-            authorization:token
-        }
+    axios.get(urlOrder,{
+
+        headers
+
     })
     .then(function(response){
-
         orderData = response.data.orders;
         renderOrderData();
         c3_data_category();
         c3_data_item();
     })
-
+    
 }
 
 //渲染訂單資料
@@ -50,7 +52,7 @@ function renderOrderData(){
             if(orderD.toString().length === 1){
                 orderD = "0" +orderD;
             }
-            console.log(orderM)
+            // console.log(orderM)
             let orderDay = `${orderTime.getFullYear()}/${orderM}/${orderD}`;
             
             //判斷訂單狀態
@@ -97,10 +99,10 @@ deleteAllBtn.addEventListener('click',function(){
     if(orderData.length === 0){
         alert("已沒有訂單")
     }else{
-        axios.delete(`https://hexschoollivejs.herokuapp.com/api/livejs/v1/admin/${api_path}/orders`,{
-            headers:{
-                authorization:token
-            }
+        axios.delete(urlOrder,{
+
+            headers
+
         })
         .then(function(response){
             alert("訂單已全部刪除");
@@ -117,10 +119,10 @@ orderList.addEventListener('click',function(e){
 
     //刪除單筆訂單
     if(e.target.getAttribute('id') === "js-deleteBtn"){
-        axios.delete(`https://hexschoollivejs.herokuapp.com/api/livejs/v1/admin/${api_path}/orders/${e.target.getAttribute('data-orderID')}`,{
-            headers:{
-                authorization:token
-            }
+        axios.delete(`${urlOrder}/${e.target.getAttribute('data-orderID')}`,{
+            
+            headers
+
         })
         .then(function(response){
            alert("訂單刪除成功");
@@ -146,9 +148,9 @@ orderList.addEventListener('click',function(e){
               }
         },
         {
-            headers:{
-                authorization:token
-            }
+
+            headers
+
         })
         .then(function(response){
            alert("訂單已狀態修改");
@@ -161,7 +163,6 @@ orderList.addEventListener('click',function(e){
 
 
 //C3 顯示資料 - 全產品類別營收比重
-let orderTotalPric = 0;     //目前所有訂單總營收
 function c3_data_category(){
     let kind = [];              //存放所有類別與價錢
     let allKindNum = {};        //存放相同類別與價錢相加
@@ -169,7 +170,6 @@ function c3_data_category(){
 
     //抓取所有訂單商品類別與價錢
     orderData.forEach(function(item){
-        orderTotalPric += item.total;
         item.products.forEach(function(item){
             let obj = {};
             obj.category = item.category;
@@ -191,7 +191,7 @@ function c3_data_category(){
     //整理成cs.js要求的格式
     Object.keys(allKindNum).forEach(function(item){
         let ary = [];
-        ary.push(item, allKindNum[item] /orderTotalPric);
+        ary.push(item, allKindNum[item]);
         c3ArrayData.push(ary);
     })
 
@@ -208,19 +208,7 @@ function c3_data_category(){
 
 //C3 顯示資料 - 全品項營收比重
 function c3_data_item(){
-    let allProductsTitle = [];  //存放電商所有"商品名子"
     let orderProducts = {};     //存放"訂單"商品名與銷售額
-    let allProductsSellPrice = {};  //存放所有商品與每個商品總銷售額
-
-    //抓取電商所有商品名子
-    axios.get(`https://hexschoollivejs.herokuapp.com/api/livejs/v1/customer/${api_path}/products`)
-    .then(function(response){
-       response.data.products.forEach(function(item){
-            allProductsTitle.push(item.title);
-        })
-        allProducts();
-    })
-    
 
     //抓取所有訂單商品名與價格
     orderData.forEach(function(item){
@@ -232,54 +220,24 @@ function c3_data_item(){
             }
         })
     })
-
-
-    //整理出每個商品的總銷售價格
-    function allProducts(){
-
-        // 把訂單物件 key 轉成陣列(再用forEach做比較)
-        let orderTitle = [];    
-        orderTitle = Object.keys(orderProducts);
-
-        //  把 allProductsSellPrice物件 賦予 allProductsTitle 轉為屬性放進去，並先給值為 0
-        //  做出所有商品的銷售額累加表
-        allProductsTitle.forEach(function(item){
-
-            allProductsSellPrice[item] = 0;
-
-        })
-
-        // 把全商品物件 key 轉成陣列(再用forEach做比較)
-        let allTitle = [];
-        allTitle = Object.keys(allProductsSellPrice);
-
-        //把兩個用 object.key 轉成陣列的資料作判斷，有相同的就賦予訂單價錢上去
-        allTitle.forEach(function(all){
-            orderTitle.forEach(function(order){
-                if(all === order){
-                    allProductsSellPrice[all] = orderProducts[all] / orderTotalPric;
-                }
-            })
-        })
-        allProductsRank();
-    }
-    
+   
+    allProductsRank();
+  
     //商品銷售排名
     function allProductsRank(){
 
-        let allTitle = [];
-        allTitle = Object.keys(allProductsSellPrice);
+        let orderTitle = [];
+        orderTitle = Object.keys(orderProducts);
 
         //把物件轉成陣列包物件
         let rankAllProduct = [];
-        allTitle.forEach(function(item){
+        orderTitle.forEach(function(item){
             let obj = {};
             obj.title = item;
-            obj.price = allProductsSellPrice[item];
+            obj.price = orderProducts[item];
             rankAllProduct.push(obj)
         })
         
-
         //陣列排序大到小
         rankAllProduct.sort(function(a,b){
             return b.price - a.price;
@@ -292,7 +250,7 @@ function c3_data_item(){
     function c3Data(rankAllProduct){
          
          const n = rankAllProduct.length;
-         console.log(rankAllProduct);
+        
          let c3ArrayData = [];
          // 整理出1~3名商品成c3.js格式
          for(let i = 0; i < 3; i++){
@@ -300,18 +258,18 @@ function c3_data_item(){
              ary.push(rankAllProduct[i].title,rankAllProduct[i].price);
              c3ArrayData.push(ary);
          }
-         otherAdd();
-         //排名第四以後所有商品相加，整理成c3.js格式
-         function otherAdd(){
-             let ary =[];
-             let total = 0;
-             for(let i = 3; i <= n-1 ; i++ ){
-                 total += rankAllProduct[i].price;
-             }
-             ary.push("其他",total);
-             c3ArrayData.push(ary);
+
+         //如果有第四以後的商品在相加，整理成c3.js格式
+         if(n > 3){
+            let ary =[];
+            let total = 0;
+            for(let i = 3; i <= n-1 ; i++ ){
+                total += rankAllProduct[i].price;
+            }
+            ary.push("其他",total);
+            c3ArrayData.push(ary); 
          }
-    
+
         
         // C3.js 資料圖表顯示
         let chart = c3.generate({

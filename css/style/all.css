@@ -10012,6 +10012,11 @@ body {
   margin-right: 15px;
 }
 
+.shoppingCart-num {
+  width: 50%;
+  padding: 8px 0px 8px 12px;
+}
+
 .shoppingCart-footer {
   text-align: left;
 }

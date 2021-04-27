@@ -1,4 +1,7 @@
 
+let urlProducts = `${baseUrl}/api/livejs/v1/customer/${api_path}/products`;
+let urlCarts = `${baseUrl}/api/livejs/v1/customer/${api_path}/carts`;
+let urlOrder = `${baseUrl}/api/livejs/v1/customer/${api_path}/orders`;
 
 let productsData = [];  //存放AJAX抓下來的商品列資料
 const productList = document.querySelector('.js-productList'); //選取產品列表標籤
@@ -8,11 +11,11 @@ const productList = document.querySelector('.js-productList'); //選取產品列
 // AJAX 取得商品資料
 function getProductList(){
  
-    axios.get(`https://hexschoollivejs.herokuapp.com/api/livejs/v1/customer/${api_path}/products`)
+    axios.get(urlProducts)
     .then(function (response) {
 
         productsData = response.data.products;
-        renderProduct();
+        renderProduct(productsData);
     })
 
 }
@@ -39,10 +42,10 @@ function productCard(item){
 }
 
 // 渲染產品列表
-function renderProduct(){
+function renderProduct(goalArray){
     
     let cards = "";
-    productsData.forEach(function(item){
+    goalArray.forEach(function(item){
         
         cards += productCard(item);
     
@@ -67,18 +70,12 @@ const select = document.querySelector('.js-filter'); //選取篩選標籤
 function filterProduct(filterItem){
     
     let filterData;
-    let cards = "";
+    
     filterData = productsData.filter(function(item){
         return item.category === filterItem;
     })
     
-    filterData.forEach(function(item){
-    
-        cards += productCard(item);
-
-    })
-
-    productList.innerHTML = cards;
+    renderProduct(filterData);
 
 }
 
@@ -87,7 +84,7 @@ select.addEventListener('change',function(e){
 
     let filterItem = select.value;
     if(filterItem === "全部"){
-        init();
+        getProductList()
     }else{
         filterProduct(filterItem);
     }
@@ -104,7 +101,7 @@ const totalPrice = document.querySelector('.js-totalPrice');
 // AJAX 取得購物車商品
 function getShoppingCartData(){
 
-    axios.get(`https://hexschoollivejs.herokuapp.com/api/livejs/v1/customer/${api_path}/carts`)
+    axios.get(urlCarts)
     .then(function (response) {
 
         if(response.data.carts.length === 0){
@@ -115,6 +112,7 @@ function getShoppingCartData(){
                         </ul>
                     </li>`;
             shoppingCartList.innerHTML = str;
+            shoppingCartData = response.data.carts;
         }else{
             shoppingCartData = response.data.carts;
             renderShoppingCart();
@@ -129,7 +127,6 @@ function getShoppingCartData(){
 
 //顯示購物車內商品
 function renderShoppingCart(){
-
     let str = "";
     shoppingCartData.forEach(function(item){
         
@@ -145,7 +142,8 @@ function renderShoppingCart(){
                             <p><span class="d-lg-none">單價：</span>NT$${item.product.price}</p>
                         </li>
                         <li class="col-3 col-md-2 col-lg-2 order-4 order-lg-3">
-                            <p><span class="d-lg-none">數量：</span>${item.quantity}</p>
+                            <label class="d-lg-none" for="js-shoppingCartNum">數量：</label>
+                            <input class="shoppingCart-num" id="js-shoppingCartNum" type="number" name="商品數量" min="1" data-cartID="${item.id}" value="${item.quantity}">
                         </li>
                         <li class="col-5 col-md-5 col-lg-2 order-5 order-lg-4">
                             <p><span class="d-lg-none">金額：</span>NT$${item.product.price * item.quantity}</p>
@@ -184,7 +182,7 @@ productList.addEventListener('click',function(e){
               
         })
 
-        axios.post(`https://hexschoollivejs.herokuapp.com/api/livejs/v1/customer/${api_path}/carts`, {
+        axios.post(urlCarts, {
                 "data": {
                     "productId": productID,
                     "quantity": numCheck
@@ -198,16 +196,44 @@ productList.addEventListener('click',function(e){
     }
 })
 
+// 變更購物車數量
+shoppingCartList.addEventListener('change',function(e){
+    
+    if(e.target.getAttribute('id') === 'js-shoppingCartNum'){
+        
+            axios.patch(urlCarts,{
+            "data": {
+                "id": e.target.getAttribute('data-cartID'),
+                "quantity": parseInt(e.target.value)
+              }
+            })
+            .then(function(response){
+                getShoppingCartData();
+            })
+       
+    }
+
+})
+
+
 // 購物車全部刪除
 const deleteAll = document.querySelector('.js-deleteAll');
 
 deleteAll.addEventListener('click',function(e){
     
-    axios.delete(`https://hexschoollivejs.herokuapp.com/api/livejs/v1/customer/${api_path}/carts`)
-    .then(function(response){
-        alert("購物車已清空");
-        getShoppingCartData();
-    })
+    if(shoppingCartData.length === 0){
+
+        alert("購物車已沒有商品");
+
+    }else{
+        axios.delete(urlCarts)
+        .then(function(response){
+
+            alert("購物車已清空");
+            getShoppingCartData();
+            
+        })
+    }
 
 })
 
@@ -216,13 +242,14 @@ shoppingCartList.addEventListener('click',function(e){
     
     if(e.target.getAttribute('id') === "js-delete"){
        
-        axios.delete(`https://hexschoollivejs.herokuapp.com/api/livejs/v1/customer/chiang666/carts/${e.target.getAttribute('data-cartID')}`)
+        axios.delete(`${urlCarts}/${e.target.getAttribute('data-cartID')}`)
         .then(function(response){
             alert("刪除成功");
             getShoppingCartData();
         })
 
     }
+
 })
 
 
@@ -249,6 +276,10 @@ function checkForm(){
         "電話": {
             presence: {
                 message: "必填!"
+            },
+            length: {
+                minimum: 8,
+                message: "號碼須超過 8 碼!"
             }
         },
         "Email": {
@@ -312,9 +343,9 @@ sendBtn.addEventListener('click',function(){
         const address = document.querySelector('#address').value;
         const payment = document.querySelector('#payment').value;
 
-        axios.post(`https://hexschoollivejs.herokuapp.com/api/livejs/v1/customer/${api_path}/orders`,{
-            "data": {
-                "user": {
+        axios.post(urlOrder,{
+            data: {
+                user: {
                   "name": name,
                   "tel": tel,
                   "email": email,
